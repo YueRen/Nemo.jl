@@ -1129,7 +1129,7 @@ end
     ccall((:fmpz_mat_entry, libflint), 
        Ptr{fmpz}, (Ref{fmpz_mat}, Int, Int), A, i-1, j-1)
 
-@inline function is_zero_entry(A::fmpz_mat, i, j)
+@inline function is_zero_entry(A::fmpz_mat, i::Int, j::Int)
    GC.@preserve A begin
      x = mat_entry_ptr(A, i, j)
      return ccall((:fmpz_is_zero, libflint), Bool, (Ptr{fmpz},), x)
