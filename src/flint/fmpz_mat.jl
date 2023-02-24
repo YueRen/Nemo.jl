@@ -12,7 +12,7 @@ export ZZMatrix, ZZMatrixSpace, getindex, getindex!, setindex!,
        nullspace, rank, rref, reduce_mod, similar, snf, snf_diagonal, is_snf,
        solve, solve_rational, cansolve, cansolve_with_nullspace, solve_dixon,
        tr, transpose, content, hcat, vcat, addmul!, zero!, pseudo_inv,
-       hnf_modular_eldiv, nullspace_right_rational
+       hnf_modular_eldiv, nullspace_right_rational, is_zero_entry
 
 ###############################################################################
 #
