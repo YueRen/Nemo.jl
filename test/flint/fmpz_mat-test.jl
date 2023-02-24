@@ -647,6 +647,23 @@ end
 
    @test X == T([3, -24, 14])
    @test A*X == B
+    
+   fl, X = can_solve_with_solution(A, B)
+   @test fl && A * X == B
+
+   A = matrix(ZZ, 2, 2, [1, 0, 0, 0])
+   B = matrix(ZZ, 2, 2, [0, 0, 0, 1])
+   fl, X = can_solve_with_solution(A, B)
+   @test !fl
+   fl, X = can_solve_with_solution(A, B, side = :left)
+   @test !fl
+   fl, X = cansolve_with_nullspace(A, B)
+   @test !fl
+
+   A = matrix(ZZ, 2, 2, [1, 0, 0, 0])
+   B = matrix(ZZ, 2, 2, [0, 1, 0, 0])
+   fl, X, Z = cansolve_with_nullspace(A, B)
+   @test fl && A*X == B && iszero(A * Z)
 end
 
 
@@ -657,10 +674,17 @@ end
 
    A = S([ZZRingElem(2) 3 5; 1 4 7; 9 6 3])
    B = S([ZZRingElem(1) 4 7; 9 6 7; 4 3 3])
+   C = matrix(ZZ, 2, 2, [1, 2, 3, 4])
 
    @test hcat(A, B) == T([2 3 5 1 4 7; 1 4 7 9 6 7; 9 6 3 4 3 3])
 
    @test vcat(A, B) == U([2 3 5; 1 4 7; 9 6 3; 1 4 7; 9 6 7; 4 3 3])
+
+   @test [A B] == hcat(A, B)
+   @test_throws ErrorException [A C]
+   @test [A; B] == vcat(A, B)
+   @test_throws ErrorException [A; C]
+   @test cat(A, A, dims = (1, 2)) == block_diagonal_matrix([A, A])
 end
 
 @testset "ZZMatrix.rand" begin
