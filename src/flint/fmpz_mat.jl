@@ -1125,14 +1125,14 @@ function solve(a::ZZMatrix, b::ZZMatrix)
    return z
 end
 
-@inline mat_entry_ptr(A::fmpz_mat, i::Int, j::Int) = 
+@inline mat_entry_ptr(A::ZZMatrix, i::Int, j::Int) = 
     ccall((:fmpz_mat_entry, libflint), 
-       Ptr{fmpz}, (Ref{fmpz_mat}, Int, Int), A, i-1, j-1)
+       Ptr{ZZRingElem}, (Ref{ZZMatrix}, Int, Int), A, i-1, j-1)
 
-@inline function is_zero_entry(A::fmpz_mat, i::Int, j::Int)
+@inline function is_zero_entry(A::ZZMatrix, i::Int, j::Int)
    GC.@preserve A begin
      x = mat_entry_ptr(A, i, j)
-     return ccall((:fmpz_is_zero, libflint), Bool, (Ptr{fmpz},), x)
+     return ccall((:fmpz_is_zero, libflint), Bool, (Ptr{ZZRingElem},), x)
    end
 end
 
@@ -1168,8 +1168,8 @@ function cansolve(a::ZZMatrix, b::ZZMatrix)
              H_ptr = mat_entry_ptr(H, j, k)
              for h = k:ncols(H)
                b_ptr = mat_entry_ptr(b, h, i)
-               ccall((:fmpz_mul, libflint), Cvoid, (Ref{fmpz}, Ref{fmpz}, Ptr{fmpz}), t, q, H_ptr)
-               ccall((:fmpz_sub, libflint), Cvoid, (Ptr{fmpz}, Ptr{fmpz}, Ref{fmpz}), b_ptr, b_ptr, t)
+               ccall((:fmpz_mul, libflint), Cvoid, (Ref{ZZRingElem}, Ref{ZZRingElem}, Ptr{ZZRingElem}), t, q, H_ptr)
+               ccall((:fmpz_sub, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}, Ref{ZZRingElem}), b_ptr, b_ptr, t)
                H_ptr += sizeof(fmpz)
 
 #                b[h, i] -= q*H[j, h]
@@ -1185,7 +1185,7 @@ function cansolve(a::ZZMatrix, b::ZZMatrix)
    return true, transpose(z*T)
 end
 
-function Base.cat(A::fmpz_mat...;dims)
+function Base.cat(A::ZZMatrix...;dims)
   @assert dims == (1,2) || isa(dims, Int)
 
   if isa(dims, Int)
@@ -1207,7 +1207,7 @@ function Base.cat(A::fmpz_mat...;dims)
         A_ptr = mat_entry_ptr(Ai, k, 1)
         X_ptr = mat_entry_ptr(X, start_row + k, start_col+1)
         for l = 1:ncols(Ai)
-          ccall((:fmpz_set, libflint), Cvoid, (Ptr{fmpz}, Ptr{fmpz}), X_ptr, A_ptr)
+          ccall((:fmpz_set, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}), X_ptr, A_ptr)
           X_ptr += sizeof(fmpz)
           A_ptr += sizeof(fmpz)
         end
@@ -1220,7 +1220,7 @@ function Base.cat(A::fmpz_mat...;dims)
 end
 
 
-function _vcat(A::fmpz_mat...)
+function _vcat(A::ZZMatrix...)
   if length(A) == 0
     error("Number of matrices to concatenate must be positive")
   end
@@ -1237,7 +1237,7 @@ function _vcat(A::fmpz_mat...)
         M_ptr = mat_entry_ptr(M, s+j, 1)
         N_ptr = mat_entry_ptr(N, j, 1)
         for k in 1:ncols(N)
-          ccall((:fmpz_set, libflint), Cvoid, (Ptr{fmpz}, Ptr{fmpz}), M_ptr, N_ptr)
+          ccall((:fmpz_set, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}), M_ptr, N_ptr)
           M_ptr += sizeof(fmpz)
           N_ptr += sizeof(fmpz)
         end
@@ -1249,7 +1249,7 @@ function _vcat(A::fmpz_mat...)
 end
 
 #to override the generic one in AA
-function can_solve_with_solution(a::fmpz_mat, b::fmpz_mat; side::Symbol = :right)
+function can_solve_with_solution(a::ZZMatrix, b::ZZMatrix; side::Symbol = :right)
    if side == :left
       fl, x = Nemo.cansolve(transpose(a), transpose(b))
       return fl, transpose(x)
