@@ -1170,7 +1170,7 @@ function cansolve(a::ZZMatrix, b::ZZMatrix)
                b_ptr = mat_entry_ptr(b, h, i)
                ccall((:fmpz_mul, libflint), Cvoid, (Ref{ZZRingElem}, Ref{ZZRingElem}, Ptr{ZZRingElem}), t, q, H_ptr)
                ccall((:fmpz_sub, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}, Ref{ZZRingElem}), b_ptr, b_ptr, t)
-               H_ptr += sizeof(fmpz)
+               H_ptr += sizeof(ZZRingElem)
 
 #                b[h, i] -= q*H[j, h]
              end
@@ -1208,8 +1208,8 @@ function Base.cat(A::ZZMatrix...;dims)
         X_ptr = mat_entry_ptr(X, start_row + k, start_col+1)
         for l = 1:ncols(Ai)
           ccall((:fmpz_set, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}), X_ptr, A_ptr)
-          X_ptr += sizeof(fmpz)
-          A_ptr += sizeof(fmpz)
+          X_ptr += sizeof(ZZRingElem)
+          A_ptr += sizeof(ZZRingElem)
         end
       end
     end
@@ -1238,8 +1238,8 @@ function _vcat(A::ZZMatrix...)
         N_ptr = mat_entry_ptr(N, j, 1)
         for k in 1:ncols(N)
           ccall((:fmpz_set, libflint), Cvoid, (Ptr{ZZRingElem}, Ptr{ZZRingElem}), M_ptr, N_ptr)
-          M_ptr += sizeof(fmpz)
-          N_ptr += sizeof(fmpz)
+          M_ptr += sizeof(ZZRingElem)
+          N_ptr += sizeof(ZZRingElem)
         end
       end
     end
