@@ -7,17 +7,17 @@
             p = rand(2:997)
         end
 
-        k1, x1 = FiniteField(p, 1, "x1")
-        k2, x2 = FiniteField(p, 2, "x2")
-        k3, x3 = FiniteField(p, 3, "x3")
-        k4, x4 = FiniteField(p, 4, "x4")
-        k6, x6 = FiniteField(p, 6, "x6")
-        k8, x8 = FiniteField(p, 8, "x8")
-        k9, x9 = FiniteField(p, 9, "x9")
-        k12, x12 = FiniteField(p, 12, "x12")
-        k16, x16 = FiniteField(p, 16, "x16")
-        k18, x18 = FiniteField(p, 18, "x18")
-        k24, x24 = FiniteField(p, 24, "x24")
+        k1, x1 = Native.FiniteField(p, 1, "x1")
+        k2, x2 = Native.FiniteField(p, 2, "x2")
+        k3, x3 = Native.FiniteField(p, 3, "x3")
+        k4, x4 = Native.FiniteField(p, 4, "x4")
+        k6, x6 = Native.FiniteField(p, 6, "x6")
+        k8, x8 = Native.FiniteField(p, 8, "x8")
+        k9, x9 = Native.FiniteField(p, 9, "x9")
+        k12, x12 = Native.FiniteField(p, 12, "x12")
+        k16, x16 = Native.FiniteField(p, 16, "x16")
+        k18, x18 = Native.FiniteField(p, 18, "x18")
+        k24, x24 = Native.FiniteField(p, 24, "x24")
 
         S = Set([(k4, k12),
                  (k6, k24),
@@ -89,8 +89,8 @@ end
         end
 
         a, b = rand(1:5), rand(1:5)
-        ka, xa = FiniteField(p, a, "xa")
-        kab, xab = FiniteField(p, a*b, "xab")
+        ka, xa = Native.FiniteField(p, a, "xa")
+        kab, xab = Native.FiniteField(p, a*b, "xab")
 
         f = preimage_map(ka, kab)
         g = embed(ka, kab)
@@ -113,7 +113,7 @@ end
         end
         pop!(S, p)
 
-        F = FiniteField(p, 4, "s")[1]
+        F = Native.FiniteField(p, 4, "s")[1]
         Z = residue_ring(ZZ, p)
         R, x = polynomial_ring(Z, "x")
 
@@ -146,10 +146,10 @@ end
             F4 = factor(P4)
         end
 
-        K1 = FiniteField(P1, "r1")[1]
-        K2 = FiniteField(P2, "r2")[1]
-        K3 = FiniteField(P3, "r3")[1]
-        K4 = FiniteField(P4, "r4")[1]
+        K1 = Native.FiniteField(P1, "r1")[1]
+        K2 = Native.FiniteField(P2, "r2")[1]
+        K3 = Native.FiniteField(P3, "r3")[1]
+        K4 = Native.FiniteField(P4, "r4")[1]
 
         K = Set([K1, K2, K3, K4])
         while !isempty(K)

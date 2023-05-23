@@ -455,15 +455,3 @@ function (R::FpField)(a::Union{fpFieldElem, zzModRingElem, FpFieldElem, ZZModRin
       return R(data(a))
    end
 end
-
-###############################################################################
-#
-#   GF constructor
-#
-###############################################################################
-
-function GF(n::ZZRingElem; cached::Bool=true)
-   (n <= 0) && throw(DomainError(n, "Characteristic must be positive"))
-   !is_probable_prime(n) && throw(DomainError(n, "Characteristic must be prime"))
-   return FpField(n, cached)
-end

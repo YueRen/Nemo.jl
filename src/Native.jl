@@ -1,6 +1,6 @@
 module Native
 
-import ..Nemo: ZZRingElem, VarName, ZZModPolyRingElem, FpPolyRingElem, FqPolyRepField, Zmodn_poly, fpField, FpField, fqPolyRepField, is_prime, is_probable_prime, gen, characteristic
+import ..Nemo: ZZRingElem, VarName, ZZModPolyRingElem, FpPolyRingElem, FqPolyRepField, Zmodn_poly, fpField, FpField, fqPolyRepField, is_prime, is_probable_prime, gen, characteristic, similar
 
 function GF(n::Int; cached::Bool=true)
   (n <= 0) && throw(DomainError(n, "Characteristic must be positive"))
@@ -36,6 +36,8 @@ function FiniteField(F::FqPolyRepField, deg::Int, s::VarName = :o; cached = true
   return FqPolyRepField(characteristic(F), deg, Symbol(s), cached)
 end
 
+similar(F::FqPolyRepField, deg::Int, s::VarName = :o; cached = true) = FiniteField(F, deg, s, cached = cached)
+
 function FiniteField(char::Int, deg::Int, s::VarName = :o; cached = true)
    parent_obj = fqPolyRepField(ZZRingElem(char), deg, Symbol(s), cached)
    return parent_obj, gen(parent_obj)
@@ -49,6 +51,8 @@ end
 function FiniteField(F::fqPolyRepField, deg::Int, s::VarName = :o; cached = true)
     return fqPolyRepField(characteristic(F), deg, Symbol(s), cached)
 end
+
+similar(F::fqPolyRepField, deg::Int, s::VarName = :o; cached = true) = FiniteField(F, deg, s, cached = cached)
 
 # Additional from Hecke
 function FiniteField(p::Integer; cached::Bool = true)

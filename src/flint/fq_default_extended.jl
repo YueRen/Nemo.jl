@@ -635,13 +635,13 @@ end
 #
 ################################################################################
 
-function NGFiniteField(a::IntegerUnion, s::VarName = :o; cached::Bool = true, check::Bool = true)
+function FiniteField(a::IntegerUnion, s::VarName = :o; cached::Bool = true, check::Bool = true)
   fl, p, e = is_prime_power_with_data(a)
   !fl && error("Order must be a prime power")
-  return NGFiniteField(p, e, s; cached = cached, check = false) 
+  return FiniteField(p, e, s; cached = cached, check = false) 
 end
 
-function NGFiniteField(f::FqPolyRingElem, s::VarName = :o; cached::Bool = true, check::Bool = true, absolute::Bool = false)
+function FiniteField(f::FqPolyRingElem, s::VarName = :o; cached::Bool = true, check::Bool = true, absolute::Bool = false)
   (check && !isirreducible(f)) && error("Defining polynomial must be irreducible")
   # Should probably have its own cache
   F = FqField(f, Symbol(s), cached, absolute)
@@ -674,12 +674,12 @@ generator will be printed.
 If a polynomial $f \in k[t]$ over a finite field $k$ is specified, the finite field
 $S = k[t]/(f)$ will be constructed as a finite field with base field $k$.
 """
-function _GF(a::IntegerUnion, s::VarName = :o; cached::Bool = true, check::Bool = true)
-  return NGFiniteField(a, s; cached = cached, check = check)[1]
+function GF(a::IntegerUnion, s::VarName = :o; cached::Bool = true, check::Bool = true)
+  return FiniteField(a, s; cached = cached, check = check)[1]
 end
 
-function _GF(a::IntegerUnion, b::Int, s::VarName = :o; cached::Bool = true, check::Bool = true)
-  return NGFiniteField(a, b, s; cached = cached, check = check)[1]
+function GF(a::IntegerUnion, b::Int, s::VarName = :o; cached::Bool = true, check::Bool = true)
+  return FiniteField(a, b, s; cached = cached, check = check)[1]
 end
 
 ################################################################################

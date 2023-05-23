@@ -254,14 +254,14 @@ end
 
 function _get_raw_type(::Type{fqPolyRepField}, F::FqField)
   @assert _fq_default_ctx_type(F) == 2
-  Rx, _ = polynomial_ring(GF(UInt(characteristic(F))), "x", cached = false)
+  Rx, _ = polynomial_ring(Native.GF(UInt(characteristic(F))), "x", cached = false)
   m = map_coefficients(x -> _coeff(x, 0), defining_polynomial(F), parent = Rx)
   return fqPolyRepField(m, :$, false)
 end
 
 function _get_raw_type(::Type{FqPolyRepField}, F::FqField)
   @assert _fq_default_ctx_type(F) == 3
-  Rx, _ = polynomial_ring(GF(characteristic(F)), "x", cached = false)
+  Rx, _ = polynomial_ring(Native.GF(characteristic(F)), "x", cached = false)
   m = map_coefficients(x -> _coeff(x, 0), defining_polynomial(F), parent = Rx)
   return FqPolyRepField(m, :$, false)
 end
@@ -273,12 +273,12 @@ end
 
 function _get_raw_type(::Type{fpField}, F::FqField)
   @assert _fq_default_ctx_type(F) == 4
-  return GF(UInt(order(F)))
+  return Native.GF(UInt(order(F)))
 end
 
 function _get_raw_type(::Type{FpField}, F::FqField)
   @assert _fq_default_ctx_type(F) == 5
-  return GF(order(F))
+  return Native.GF(order(F))
 end
 
 # image/preimage
@@ -715,7 +715,7 @@ end
 
 function modulus(k::FqField, var::String="T")
     p = characteristic(k)
-    Q = polynomial(GF(p), [], var, cached = false)
+    Q = polynomial(Native.GF(p), [], var, cached = false)
     ccall((:fq_default_ctx_modulus, libflint), Nothing,
           (Ref{FpPolyRingElem}, Ref{FqField}),
           Q, k)
@@ -805,7 +805,7 @@ characteristic and degree. The string $s$ is used to designate how the finite
 field generator will be
 printed.
 """
-function NGFiniteField(char::IntegerUnion, deg::Int, s::VarName = :o; cached = true, check::Bool = true)
+function FiniteField(char::IntegerUnion, deg::Int, s::VarName = :o; cached = true, check::Bool = true)
    check && !is_prime(char) && error("Characteristic must be prime")
    _char = ZZRingElem(char)
    S = Symbol(s)
@@ -838,7 +838,8 @@ end
 # 
 
 # The following code is used in the intersection code
-function FlintFiniteField(F::FqField, deg::Int, s::VarName = :o; cached = true)
+function FiniteField(F::FqField, deg::Int, s::VarName = :o; cached = true)
     return FqField(characteristic(F), deg, Symbol(s), cached)
 end
 
+similar(F::FqField, deg::Int, s::VarName = :o; cached = true) = FiniteField(F, deg, s, cached = cached)

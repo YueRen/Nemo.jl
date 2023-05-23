@@ -1,5 +1,5 @@
 @testset "fqPolyRepMPolyRingElem.constructors" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -78,19 +78,19 @@
       end
    end
 
-   RR, = FiniteField(23, 2, "a")
+   RR, = Native.FiniteField(23, 2, "a")
    S, (x, y) = polynomial_ring(R, ["x", "y"])
    M = MPolyBuildCtx(S)
    @test_throws ErrorException push_term!(M, one(RR), zeros(Int, 2))
 
-   F, = FiniteField(2, 2, :z)
+   F, = Native.FiniteField(2, 2, :z)
    R, (x, ) = polynomial_ring(F, ["x",])
    @test R([F(1)], [[BigInt(1)]]) == x
    @test R([1], [[BigInt(1)]]) == x
 end
 
 @testset "fqPolyRepMPolyRingElem.printing" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
    S, (x, y) = polynomial_ring(R, ["x", "y"])
 
    @test !occursin(r"{", string(S))
@@ -107,7 +107,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.hash" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
    S, (x, y) = polynomial_ring(R, ["x", "y"])
 
    p = y^ZZRingElem(2)^100
@@ -117,7 +117,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.manipulation" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -244,7 +244,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.multivariate_coeff" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for ord in Nemo.flint_orderings
       S, (x, y, z) = polynomial_ring(R, ["x", "y", "z"]; ordering=ord)
@@ -262,7 +262,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.unary_ops" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -279,7 +279,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.binary_ops" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -302,7 +302,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.adhoc_binary" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -338,7 +338,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.adhoc_comparison" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -360,7 +360,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.powering" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -387,7 +387,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.divides" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -416,7 +416,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.euclidean_division" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -452,7 +452,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.ideal_reduction" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -501,7 +501,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.gcd" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:4
       var_names = ["x$j" for j in 1:num_vars]
@@ -527,7 +527,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.factor" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
    R, (x, y, z) = polynomial_ring(R, ["x", "y", "z"])
 
    function check_factor(a, esum)
@@ -544,7 +544,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.sqrt" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:4
       var_names = ["x$j" for j in 1:num_vars]
@@ -570,7 +570,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.evaluation" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -653,7 +653,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.valuation" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -691,7 +691,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.derivative" begin
-   R, a = FiniteField(23, 5, "a")
+   R, a = Native.FiniteField(23, 5, "a")
 
    for num_vars = 1:10
       var_names = ["x$j" for j in 1:num_vars]
@@ -711,7 +711,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.combine_like_terms" begin
-  R23, a = FiniteField(23, 5, "a")
+  R23, a = Native.FiniteField(23, 5, "a")
 
   for num_vars = 1:10
      var_names = ["x$j" for j in 1:num_vars]
@@ -747,7 +747,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.exponents" begin
-  R23, a = FiniteField(23, 5, "a")
+  R23, a = Native.FiniteField(23, 5, "a")
 
   for num_vars = 1:10
      var_names = ["x$j" for j in 1:num_vars]
@@ -802,7 +802,7 @@ end
 end
 
 @testset "fqPolyRepMPolyRingElem.gcd_with_cofactors" begin
-   R23, t = FiniteField(23, 5, "t")
+   R23, t = Native.FiniteField(23, 5, "t")
    R, (x, y, z) = polynomial_ring(R23, [:x, :y, :z])
 
    @test gcd_with_cofactors(x, y) == (1, x, y)

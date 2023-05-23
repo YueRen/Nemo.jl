@@ -481,7 +481,7 @@ const ZZ = FlintZZ
 const QQ = FlintQQ
 const PadicField = FlintPadicField
 const QadicField = FlintQadicField
-const FiniteField = FlintFiniteField
+#const FiniteField = FlintFiniteField
 
 ###############################################################################
 #
