@@ -115,7 +115,7 @@ end
    
    @test QQFieldElem[1, 2, 3] // ZZRingElem(2) == QQFieldElem[1//2, 1, 3//2]
    @test QQFieldElem[1, 2, 3] / ZZRingElem(2) == QQFieldElem[1//2, 1, 3//2]
-   @test QQFieldElem(2) * ZZRingElem[1, 2, 3] == QQFieldElem[2, 4, 6]
+   @test ZZRingElem(2) * QQFieldElem[1, 2, 3] == QQFieldElem[2, 4, 6]
    @test QQFieldElem[1, 2, 3] * ZZRingElem(2) == QQFieldElem[2, 4, 6]
 end
 
