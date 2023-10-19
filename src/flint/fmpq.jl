@@ -1205,13 +1205,19 @@ Rational(z::ZZRingElem) = Rational{BigInt}(z)
 
 ###############################################################################
 #
-#   Convenience methods for arithmetics (since `QQFieldElem` is not a `Number` type)
+#   Convenience methods for arithmetics (since `QQFieldElem` and `ZZRingElem` are not `Number` types)
 #
 ###############################################################################
 
 //(v::Vector{QQFieldElem}, x::QQFieldElem) = v .// x
+/(v::Vector{QQFieldElem}, x::QQFieldElem) = v ./ x
 *(x::QQFieldElem, v::Vector{QQFieldElem}) = x .* v
 *(v::Vector{QQFieldElem}, x::QQFieldElem) = v .* x
+
+//(v::Vector{QQFieldElem}, x::ZZRingElem) = v .// x
+/(v::Vector{QQFieldElem}, x::ZZRingElem) = v ./ x
+*(x::ZZRingElem, v::Vector{QQFieldElem}) = x .* v
+*(v::Vector{QQFieldElem}, x::ZZRingElem) = v .* x
 
 
 ###############################################################################
