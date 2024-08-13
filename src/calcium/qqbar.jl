@@ -997,6 +997,10 @@ function roots(R::QQBarField, f::QQPolyRingElem)
   return res
 end
 
+function roots(f::AbstractAlgebra.Generic.Poly{QQBarFieldElem})
+  return return roots(QQBarField(), f)
+end
+
 @doc raw"""
     conjugates(a::QQBarFieldElem)
 
